@@ -85,3 +85,26 @@ export const editBook = async (req: Request, res: Response) => {
     })
   }
 }
+
+export const deleteBook = async (req: Request, res: Response) => {
+  const bookId = req.body.id
+
+  if (bookId) {
+    const destroyed = await Book.destroy({ where: { id: bookId } })
+    if (destroyed > 0) {
+      res.status(200).json({
+        success: true
+      })
+    } else {
+      res.status(400).json({
+        success: false,
+        error: 'Livro não encontrado'
+      })
+    }
+  } else {
+    res.status(400).json({
+      success: false,
+      error: 'Erro ao deletar livro. Tente novamente mais tarde'
+    })
+  }
+}
