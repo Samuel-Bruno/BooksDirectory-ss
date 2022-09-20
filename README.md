@@ -9,6 +9,7 @@ A simple CRUD api for a list of books
   - Sequelize
   - MySql2
   - Typescript
+  - UUID
 
 ## Run this project
 
