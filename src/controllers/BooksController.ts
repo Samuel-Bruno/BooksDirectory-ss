@@ -56,3 +56,32 @@ export const addBook = async (req: Request, res: Response) => {
     })
   }
 }
+
+export const editBook = async (req: Request, res: Response) => {
+  const bookId = req.body.id
+
+  if (bookId) {
+    let changes: { author?: string, title?: string } = {}
+
+    if (req.body.title && req.body.title.trim() !== '') changes.title = req.body.title
+    if (req.body.author && req.body.author.trim() !== '') changes.author = req.body.author
+
+    if (changes.author !== undefined || changes.title !== undefined) {
+      await Book.update(changes, { where: { id: bookId } })
+
+      res.status(200).json({
+        success: true
+      })
+    } else {
+      res.status(400).json({
+        success: false,
+        error: 'Preencha algum campo para alterar'
+      })
+    }
+  } else {
+    res.status(400).json({
+      success: false,
+      error: 'Livro não encontrado'
+    })
+  }
+}
